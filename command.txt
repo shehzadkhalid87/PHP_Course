@@ -1,0 +1,18 @@
+# creating laravel new app
+laravel new app-name
+composer create-project laravel/laravel todo-app
+
+# starting server locally
+# enter into app folder 
+cd app-folder-name
+npm install && npm run build
+ # run server 
+ composer run dev
+ php artisan serve
+
+ -- localhost:8000
+
+
+ # database migration
+ php artisan migrate
+
