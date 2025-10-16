@@ -1,19 +1,8 @@
 <?php
 
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Route;
 
-class Job
-{
-    public static function all(): array
-    {
-        return [
-            ['id' => 1, 'title' => 'Director', 'salary' => '$50,000'],
-            ['id' => 2, 'title' => 'Doctor', 'salary' => '$40,000'],
-            ['id' => 3, 'title' => 'Software Engineer', 'salary' => '$20,000'],
-        ];
-    }
-}
+use Illuminate\Support\Facades\Route;
+use App\Models\Job;
 
 
 Route::get('/', function () {
@@ -21,28 +10,26 @@ Route::get('/', function () {
 });
 
 Route::get('/jobs/{id?}', function ($id = null) {
-
-    // If an ID is provided → show one job
     if ($id) {
-        $job = Arr::first(Job::all(), fn($job) => $job['id'] == $id);
+        // Show a single job (if ID is provided)
+        $job = Job::find($id);
 
         if (!$job) {
             abort(404, 'Job not found');
         }
 
         return view('jobs', [
-            'jobs' => Job::all(),  // keep full list available if needed
-            'job' => $job     // single job to show
+            'jobs' => Job::all(),
+            'job' => $job
         ]);
     }
 
-    // Otherwise → show all jobs
+    // Show all jobs (no ID)
     return view('jobs', [
         'jobs' => Job::all(),
         'job' => null
     ]);
 });
-
 
 Route::get('/contact', function () {
     return view('contact');
