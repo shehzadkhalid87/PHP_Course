@@ -16,3 +16,5 @@ npm install && npm run build
  # database migration
  php artisan migrate
 
+# N + 1 debugger command
+composer require barryvd/laravel-debugger --dev
