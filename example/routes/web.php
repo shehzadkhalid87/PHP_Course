@@ -18,6 +18,10 @@ Route::get('/jobs/create', function () {
 });
 Route::post('/jobs', function () {
     // validation
+    request()->validate([
+        'title' => ['required', 'min:5'],
+        'salary' => ['required']
+    ]);
     Job::create([
         'title' => request('title'),
         'salary' => request('salary'),
@@ -45,6 +49,40 @@ Route::get('/jobs/{id}', function ($id) {
     ]);
 })->whereNumber('id');
 
+// Edit
+Route::get('/jobs/{id}/edit', function ($id) {
+    return view('jobs.edit', [
+        'jobs' => Job::with('employer')->get(),
+        'job' => Job::with('employer')->find($id)
+    ]);
+})->whereNumber('id');
+
+
+//Update
+Route::patch('/jobs/{job}', function (Job $job) {
+    // Validate inputs
+    request()->validate([
+        'title' => ['required', 'min:5'],
+        'salary' => ['required']
+    ]);
+
+    // Update the job
+    $job->update([
+        'title' => request('title'),
+        'salary' => request('salary')
+    ]);
+
+    // Redirect to the updated job page
+    return redirect('/jobs/' . $job->id);
+});
+
+
+// Delete also model binding
+Route::delete('/jobs/{job}', function (Job $job) {
+    $job->delete();
+    return redirect('/jobs');
+
+});
 
 Route::get('/contact', function () {
     return view('contact');

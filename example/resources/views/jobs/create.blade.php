@@ -1,5 +1,6 @@
 <x-layout>
-    <x-slot:heading>Create a Job</x-slot:heading>
+    <x-slot:heading></x-slot:heading>
+
 
     <div class="max-w-2xl mx-auto mt-10 bg-white-80 p-6 rounded-2xl shadow-lg text-black">
         <form action="/jobs" method="POST">
@@ -7,15 +8,26 @@
             <!-- Job Title -->
             <div class="mb-5">
                 <label for="title" class="block text-sm font-medium text-black-700 mb-2">Job Title</label>
-                <input type="text" id="title" name="title" required
+                <input type="text" id="title" name="title"
                        class="w-full px-3 py-2 bg-white-20 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+
+                <div class="mt-1 text-red-600 italic">
+                    @error('title')
+                    {{$message}}
+                    @enderror
+                </div>
             </div>
 
             <!-- Salary -->
             <div class="mb-5">
                 <label for="salary" class="block text-sm font-medium text-black-700 mb-2">Salary</label>
-                <input type="text" id="salary" name="salary" required
+                <input type="text" id="salary" name="salary"
                        class="w-full px-3 py-2 bg-white-20 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <div class="mt-1 text-red-600 italic">
+                    @error('salary')
+                    {{$message}}
+                    @enderror
+                </div>
             </div>
 
             <!-- Submit Button -->
@@ -26,6 +38,17 @@
                     Create Job
                 </button>
             </div>
+
+            {{--            <div class="mt-10">--}}
+            {{--                @if($errors->any())--}}
+            {{--                    <ul>--}}
+            {{--                        @foreach($errors->all() as $error)--}}
+            {{--                            <li class="text-red-500 italic">{{$error}}</li>--}}
+            {{--                        @endforeach--}}
+            {{--                    </ul>--}}
+            {{--                @endif--}}
+            {{--            </div>--}}
         </form>
     </div>
+
 </x-layout>
