@@ -42,7 +42,7 @@ class JobController extends Controller
         ]);
 
         // ✅ Step 3: Redirect with success message
-        return redirect('/jobs/all')->with('success', 'Job created successfully!');
+        return redirect('/jobs')->with('success', 'Job created successfully!');
     }
 
     public function create()
@@ -63,7 +63,7 @@ class JobController extends Controller
     }
 
     //Update
-    public function updates(Job $job)
+    public function update(Job $job)
     {
         // Validate inputs
         request()->validate([

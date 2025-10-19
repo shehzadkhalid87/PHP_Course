@@ -14,7 +14,7 @@
 
             {{-- Back and Edit Buttons --}}
             <div class="flex justify-between items-center mb-6">
-                <a href="/jobs/all"
+                <a href="/jobs"
                    class="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-500 hover:text-black transition">
                     ← Back
                 </a>
