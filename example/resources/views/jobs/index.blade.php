@@ -14,7 +14,7 @@
 
             {{-- Back and Edit Buttons --}}
             <div class="flex justify-between items-center mb-6">
-                <a href="/jobs"
+                <a href="/jobs/all"
                    class="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-500 hover:text-black transition">
                     ← Back
                 </a>
@@ -51,10 +51,17 @@
                                     Delete
                                 </button>
                             </form>
+
                         </div>
                     </div>
                 </div>
+
             @endforeach
+            @if(session('success'))
+                <div class="bg-green-100 text-green-800 px-4 py-2 rounded mb-4">
+                    {{ session('success') }}
+                </div>
+            @endif
 
             <div class="mt-6 py-5">
                 {{ $jobs->links() }}
@@ -62,4 +69,5 @@
         </div>
 
     @endif
+
 </x-layout>

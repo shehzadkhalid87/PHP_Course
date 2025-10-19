@@ -17,9 +17,6 @@ class JobController extends Controller
 
     }
 
-
-    //create
-
     public function show($id)
     {
         return view('jobs.index', [
@@ -29,33 +26,30 @@ class JobController extends Controller
 
     }
 
-    //Home
-
-    public function store()
+    public function store(Request $request)
     {
-        // validation
-        request()->validate([
+        // ✅ Step 1: Validate input
+        $validated = $request->validate([
             'title' => ['required', 'min:5'],
             'salary' => ['required']
         ]);
+
+        // ✅ Step 2: Create new job entry
         Job::create([
-            'title' => request('title'),
-            'salary' => request('salary'),
+            'title' => $validated['title'],
+            'salary' => $validated['salary'],
             'employer_id' => 1
-
         ]);
-        return redirect('/jobs');
 
-
+        // ✅ Step 3: Redirect with success message
+        return redirect('/jobs/all')->with('success', 'Job created successfully!');
     }
-
-    //Create and Store
 
     public function create()
     {
         return view('jobs.create');
-
     }
+
 
     //Edit
 
@@ -92,7 +86,7 @@ class JobController extends Controller
     public function destroy(Job $job)
     {
         $job->delete();
-        return redirect('/jobs');
+        return redirect('/jobs/all');
 
     }
 }

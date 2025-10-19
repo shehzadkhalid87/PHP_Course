@@ -24,7 +24,7 @@
 
 
             <div class="flex justify-between items-center">
-                <a href="/jobs"
+                <a href="/jobs/all"
                    class="inline-block mt-4 px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition">
                     ← Cancel
                 </a>
