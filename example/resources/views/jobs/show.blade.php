@@ -8,6 +8,8 @@
     <p>
         This job pays {{ $job->salary }} per year.
     </p>
+    {{--    <pre>{{ var_dump($job) }}</pre>--}}
+
 
     @can('edit', $job)
         <p class="mt-6">

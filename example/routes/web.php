@@ -24,7 +24,7 @@ Route::controller(JobController::class)->group(function () {
     Route::get('/jobs', 'index');         // Show all jobs
     Route::get('/jobs/create', 'create');     // Job creation form
     Route::post('/jobs', 'store')->middleware('auth');            // Handle job creation
-    Route::get('/jobs/{id}', 'show');         // Show single job
+    Route::get('/jobs/{job}', [JobController::class, 'show']);
     Route::get('/jobs/{id}/edit', 'edit')->middleware(['auth', 'can:edit-job']);    // Edit form
     Route::patch('/jobs/{job}', 'updates');   // Update job
     Route::delete('/jobs/{job}', 'destroy');  // Delete job
