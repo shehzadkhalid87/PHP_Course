@@ -3,46 +3,42 @@
 namespace App\Http\Controllers;
 
 use App\Models\Job;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class JobController extends Controller
 {
-    //Home
     public function index()
     {
-        return view('jobs.index', [
-            'jobs' => Job::with('employer')->Latest()->simplePaginate(3),
-            'job' => null
-        ]);
+        $jobs = Job::with('employer')->latest()->simplePaginate(10);
 
+        return view('jobs.index', [
+            'jobs' => $jobs
+        ]);
     }
 
-    public function show($id)
+    public function show(Job $job)
     {
-        return view('jobs.index', [
-            'jobs' => Job::with('employer')->get(),
-            'job' => Job::with('employer')->find($id)
-        ]);
-
+        return view('jobs.show', ['job' => $job]);
     }
 
-    public function store(Request $request)
+    public function store()
     {
-        // ✅ Step 1: Validate input
-        $validated = $request->validate([
-            'title' => ['required', 'min:5'],
+        request()->validate([
+            'title' => ['required', 'min:3'],
             'salary' => ['required']
         ]);
 
-        // ✅ Step 2: Create new job entry
-        Job::create([
-            'title' => $validated['title'],
-            'salary' => $validated['salary'],
+        $job = Job::create([
+            'title' => request('title'),
+            'salary' => request('salary'),
             'employer_id' => 1
         ]);
 
-        // ✅ Step 3: Redirect with success message
-        return redirect('/jobs')->with('success', 'Job created successfully!');
+//        Mail::to($job->employer->user)->queue(
+//            new JobPosted($job)
+//        );
+
+        return redirect('/jobs');
     }
 
     public function create()
@@ -50,43 +46,34 @@ class JobController extends Controller
         return view('jobs.create');
     }
 
-
-    //Edit
-
-    public function edit($id)
+    public function edit(Job $job)
     {
-        return view('jobs.edit', [
-            'jobs' => Job::with('employer')->get(),
-            'job' => Job::with('employer')->find($id)
-        ]);
-
+        return view('jobs.edit', ['job' => $job]);
     }
 
-    //Update
     public function update(Job $job)
     {
-        // Validate inputs
+//        Gate::authorize('edit-job', $job);
+
         request()->validate([
-            'title' => ['required', 'min:5'],
+            'title' => ['required', 'min:3'],
             'salary' => ['required']
         ]);
 
-        // Update the job
         $job->update([
             'title' => request('title'),
-            'salary' => request('salary')
+            'salary' => request('salary'),
         ]);
 
-        // Redirect to the updated job page
         return redirect('/jobs/' . $job->id);
-
     }
 
-    //Delete
     public function destroy(Job $job)
     {
-        $job->delete();
-        return redirect('/jobs/all');
+        Gate::authorize('edit-job', $job);
 
+        $job->delete();
+
+        return redirect('/jobs');
     }
 }

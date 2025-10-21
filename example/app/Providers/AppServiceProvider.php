@@ -22,8 +22,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
 //        // disabling lazy loading feature
-//        Model::preventLazyLoading();
+        Model::preventLazyLoading();
 //        // styling pagination enable
 //        Paginator::useTailwind();
     }
+
 }
